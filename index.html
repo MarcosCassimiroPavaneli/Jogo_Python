@@ -1,120 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Koko-chan 3D: Tokyo Crossing | Anime Arcade</title>
-    <!-- Google Fonts for premium retro-modern look -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Press+Start+2P&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Three.js CDN for 3D graphics rendering -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Koko-chan 3D: Tokyo Crossing – Jogo infinito do galo lutador atravessando a rua. Versão com gráficos 3D WebGL, ranking online e dificuldade crescente." />
+  <title>Koko-chan 3D: Tokyo Crossing | Rooster Fighter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Background decorations (sakura petals container or anime vibe) -->
-    <div class="anime-backdrop" style="background-image: url('assets/bg.png');"></div>
-    <div class="dark-overlay"></div>
+  <div id="canvas-wrapper">
 
-    <!-- Main Game Container -->
-    <div id="app-container">
-        <!-- Header HUD -->
-        <header id="game-header">
-            <div class="hud-item" id="score-container">
-                <span class="hud-label">PONTOS</span>
-                <span class="hud-value" id="current-score">0000</span>
-            </div>
-            <div id="game-title-mini">KOKO-CHAN 3D!</div>
-            <div class="hud-item" id="lives-container">
-                <span class="hud-label">VIDAS</span>
-                <div class="heart-container" id="hearts">
-                    <span class="heart">❤️</span>
-                    <span class="heart">❤️</span>
-                    <span class="heart">❤️</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Canvas Game Container -->
-        <div id="canvas-wrapper">
-            <!-- Three.js WebGL elements will be inserted here dynamically -->
-            <!-- Screens overlays (Start, Game Over, Pause) -->
-            <!-- Start Screen -->
-            <div id="start-screen" class="overlay-screen active">
-                <div class="glow-box">
-                    <div class="anime-badge">3D EDITION</div>
-                    <h1 class="game-logo">Koko-Chan <span class="sub-logo">Tokyo Crossing 3D</span></h1>
-                    
-                    <!-- Name Input for Ranking -->
-                    <div class="input-group">
-                        <label for="player-name" class="input-label">NOME DO GUERREIRO</label>
-                        <input type="text" id="player-name" placeholder="DIGITE SEU NOME..." maxlength="10" value="GaloLutador">
-                    </div>
-
-                    <!-- Leaderboard Display -->
-                    <div class="leaderboard-box">
-                        <h3 class="leaderboard-title">🏆 TOP 5 SHOBUN</h3>
-                        <div class="leaderboard-list" id="leaderboard-start">
-                            <div class="leaderboard-row empty">Nenhum recorde ainda</div>
-                        </div>
-                    </div>
-
-                    <button id="start-btn" class="anime-btn">COMEÇAR JOGO ⚡</button>
-                    <div class="controls-tips">
-                        Controles: <kbd>▲</kbd> <kbd>▼</kbd> <kbd>◀</kbd> <kbd>▶</kbd> ou <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Game Over Screen -->
-            <div id="game-over-screen" class="overlay-screen">
-                <div class="glow-box game-over-box">
-                    <div class="anime-badge danger">K.O.</div>
-                    <h2 class="game-over-title">FIM DE JOGO</h2>
-                    
-                    <div class="final-score-display">
-                        <div class="score-card">
-                            <span class="card-label">Pontos Finais</span>
-                            <span class="card-val" id="final-score">0</span>
-                        </div>
-                        <div class="score-card">
-                            <span class="card-label">Novo Recorde?</span>
-                            <span class="card-val" id="record-status">Não</span>
-                        </div>
-                    </div>
-
-                    <!-- Game Over Leaderboard -->
-                    <div class="leaderboard-box">
-                        <h3 class="leaderboard-title">🏆 RANKING ATUALIZADO</h3>
-                        <div class="leaderboard-list" id="leaderboard-over">
-                            <!-- Populated in JS -->
-                        </div>
-                    </div>
-
-                    <button id="restart-btn" class="anime-btn danger-btn">JOGAR NOVAMENTE 🔄</button>
-                </div>
-            </div>
+    <!-- START SCREEN -->
+    <div id="start-screen" class="overlay active">
+      <div class="overlay-content">
+        <div class="game-title">
+          <span class="title-jp">闘鶏 3D</span>
+          <span class="title-main">KOKO-CHAN</span>
+          <span class="title-sub">TOKYO CROSSING</span>
+          <div class="title-badge">ROOSTER FIGHTER</div>
         </div>
 
-        <!-- Mobile Controls Panel -->
-        <div id="mobile-controls">
-            <div class="control-row">
-                <button class="mobile-btn" id="btn-up">▲</button>
-            </div>
-            <div class="control-row">
-                <button class="mobile-btn" id="btn-left">◀</button>
-                <button class="mobile-btn" id="btn-down">▼</button>
-                <button class="mobile-btn" id="btn-right">▶</button>
-            </div>
+        <div id="start-glow-box" class="glow-box">
+          <label class="name-label" for="player-name">⚔ INSIRA SEU NOME PARA JOGAR ⚔</label>
+          <input
+            type="text"
+            id="player-name"
+            class="name-input"
+            placeholder="SEU NOME AQUI"
+            maxlength="16"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div id="name-error-msg" class="name-error">
+            ⚠ Digite um nome válido (mín. 2 caracteres) para entrar no ranking!
+          </div>
+          <button id="start-btn" class="btn-primary">
+            <span class="btn-icon">⚡</span> INICIAR BATALHA <span class="btn-icon">⚡</span>
+          </button>
         </div>
 
-        <!-- Bottom info / credits -->
-        <footer id="game-footer">
-            <p>Criado em 3D WebGL • Estilo Anime Voxel</p>
-            <button id="mute-btn" class="icon-btn">🔊 Som: Ligado</button>
-        </footer>
+        <div class="how-to-play">
+          <h3 class="section-title">Como Jogar</h3>
+          <div class="controls-grid">
+            <div class="ctrl-item"><span class="key-icon">↑↓←→</span><span>Mover</span></div>
+            <div class="ctrl-item"><span class="key-icon">WASD</span><span>Alternativo</span></div>
+            <div class="ctrl-item"><span class="key-icon">📱</span><span>Botões abaixo</span></div>
+          </div>
+        </div>
+
+        <div class="leaderboard-panel">
+          <h3 class="section-title">🏆 Ranking</h3>
+          <div id="leaderboard-start" class="leaderboard-list"></div>
+        </div>
+
+        <div class="controls-hint">Pressione ENTER após digitar o nome</div>
+      </div>
     </div>
 
-    <!-- Main Game Script -->
-    <script src="game.js"></script>
+    <!-- GAME OVER SCREEN -->
+    <div id="game-over-screen" class="overlay">
+      <div class="overlay-content compact">
+        <div class="game-over-title">
+          <span class="go-jp">敗北</span>
+          <span class="go-main">GAME OVER</span>
+        </div>
+
+        <div class="result-panel">
+          <div class="result-row">
+            <span class="result-label">Pontuação Final</span>
+            <span id="final-score" class="result-value score-val">0</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Novo Recorde?</span>
+            <span id="record-status" class="result-value">–</span>
+          </div>
+        </div>
+
+        <div class="leaderboard-panel">
+          <h3 class="section-title">🏆 Ranking</h3>
+          <div id="leaderboard-over" class="leaderboard-list"></div>
+        </div>
+
+        <div class="go-box">
+          <p class="go-name-label">Nome: <strong id="go-display-name"></strong></p>
+          <button id="restart-btn" class="btn-primary">
+            <span class="btn-icon">🔁</span> JOGAR NOVAMENTE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div id="hud-left">
+        <div class="hud-label">SCORE</div>
+        <div id="current-score" class="hud-value">0000</div>
+        <div id="phase-badge" class="phase-badge">FASE 1</div>
+      </div>
+      <div id="hud-center">
+        <div id="hearts">
+          <span class="heart" id="heart-1">❤</span>
+          <span class="heart" id="heart-2">❤</span>
+          <span class="heart" id="heart-3">❤</span>
+        </div>
+      </div>
+      <div id="hud-right">
+        <button id="mute-btn">🔊 Som: Ligado</button>
+      </div>
+    </div>
+
+    <!-- TOUCH CONTROLS -->
+    <div id="touch-controls">
+      <div class="touch-row">
+        <button class="touch-btn" id="btn-up">↑</button>
+      </div>
+      <div class="touch-row">
+        <button class="touch-btn" id="btn-left">←</button>
+        <button class="touch-btn" id="btn-down">↓</button>
+        <button class="touch-btn" id="btn-right">→</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="game.js"></script>
+  <script>
+    // Sync go-display-name after game over
+    document.getElementById('restart-btn').addEventListener('click', () => {
+      const go = document.getElementById('go-display-name');
+      if (go && window.currentPlayerName) go.textContent = window.currentPlayerName;
+    });
+    // Show name on game over
+    const origEnd = window.endGame;
+    if (typeof endGame !== 'undefined') {
+      const _end = endGame;
+      window.endGame = function() {
+        _end();
+        const go = document.getElementById('go-display-name');
+        if (go) go.textContent = currentPlayerName;
+      };
+    }
+  </script>
 </body>
 </html>

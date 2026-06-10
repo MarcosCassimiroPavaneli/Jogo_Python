@@ -184,12 +184,12 @@ canvas {
 }
 
 .glow-box {
-    background: rgba(1, 1, 43, 0.8);
+    background: rgba(1, 1, 43, 0.85);
     border: 3px solid var(--primary);
     border-radius: 24px;
     width: 100%;
-    max-width: 420px;
-    padding: 30px 20px;
+    max-width: 440px;
+    padding: 25px 20px;
     text-align: center;
     box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px rgba(255, 42, 116, 0.3);
     display: flex;
@@ -225,65 +225,135 @@ canvas {
 .game-logo {
     font-family: var(--font-heading);
     font-weight: 900;
-    font-size: 38px;
+    font-size: 34px;
     line-height: 1;
     color: var(--white);
     letter-spacing: -1px;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-transform: uppercase;
     text-shadow: 0 3px 0 var(--primary);
 }
 
 .sub-logo {
     display: block;
-    font-size: 18px;
+    font-size: 14px;
     color: var(--secondary);
     font-family: var(--font-pixel);
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     margin-top: 5px;
     text-shadow: 0 0 8px var(--secondary-glow);
 }
 
-.character-preview {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--secondary-glow) 0%, rgba(0,0,0,0) 70%);
+/* Form Input Styles */
+.input-group {
+    width: 100%;
+    max-width: 320px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     margin-bottom: 15px;
 }
 
-#preview-chicken {
-    width: 70px;
-    height: auto;
-    object-fit: contain;
-    animation: bounce 2s infinite ease-in-out;
+.input-label {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--secondary);
+    text-align: left;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-8px) scale(1.05); }
+#player-name {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid var(--secondary);
+    border-radius: 12px;
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    padding: 10px 15px;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(5, 217, 232, 0.1);
 }
 
-.game-instructions {
-    color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1.5;
+#player-name:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary-glow);
+    background: rgba(255, 42, 116, 0.05);
+}
+
+/* Leaderboard Board */
+.leaderboard-box {
+    width: 100%;
+    max-width: 340px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 12px;
     margin-bottom: 20px;
 }
 
-.high-score-board {
+.leaderboard-title {
     font-family: var(--font-pixel);
-    font-size: 12px;
+    font-size: 10px;
     color: var(--yellow);
-    background: rgba(255,255,255,0.05);
-    padding: 8px 16px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    border: 1px dashed rgba(245, 238, 48, 0.4);
+    margin-bottom: 10px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 5px var(--yellow-glow);
+}
+
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.leaderboard-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    font-size: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.leaderboard-row.highlight {
+    border-color: var(--primary);
+    background: rgba(255, 42, 116, 0.1);
+    box-shadow: inset 0 0 5px rgba(255, 42, 116, 0.15);
+}
+
+.rank-num {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--secondary);
+    margin-right: 8px;
+}
+
+.rank-name {
+    font-weight: 700;
+    color: var(--white);
+    flex-grow: 1;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.rank-score {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--yellow);
+}
+
+.leaderboard-row.empty {
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 12px;
 }
 
 /* Premium Buttons */
@@ -295,7 +365,7 @@ canvas {
     border-bottom: 4px solid #990c39;
     border-radius: 16px;
     color: var(--white);
-    padding: 14px 28px;
+    padding: 12px 28px;
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 18px;
@@ -327,7 +397,7 @@ canvas {
 }
 
 .controls-tips {
-    margin-top: 15px;
+    margin-top: 10px;
     font-size: 11px;
     color: var(--text-muted);
 }
@@ -344,10 +414,10 @@ kbd {
 /* Game Over Layout */
 .game-over-title {
     font-family: var(--font-pixel);
-    font-size: 26px;
+    font-size: 24px;
     color: var(--secondary);
     text-shadow: 0 0 10px var(--secondary-glow);
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     letter-spacing: 1px;
 }
 
@@ -355,7 +425,7 @@ kbd {
     display: flex;
     gap: 15px;
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .score-card {
@@ -363,21 +433,21 @@ kbd {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    padding: 15px 10px;
+    padding: 12px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .card-label {
-    font-size: 10px;
+    font-size: 9px;
     color: var(--text-muted);
     font-family: var(--font-pixel);
     margin-bottom: 6px;
 }
 
 .card-val {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     font-family: var(--font-heading);
 }
@@ -454,22 +524,18 @@ kbd {
         padding: 5px;
     }
     .game-logo {
-        font-size: 28px;
-        margin-bottom: 10px;
+        font-size: 26px;
+        margin-bottom: 8px;
     }
     .sub-logo {
-        font-size: 14px;
-    }
-    .character-preview {
-        width: 70px;
-        height: 70px;
-        margin-bottom: 10px;
-    }
-    #preview-chicken {
-        width: 50px;
+        font-size: 11px;
     }
     .glow-box {
-        padding: 20px 15px;
+        padding: 15px 15px;
+    }
+    .leaderboard-box {
+        margin-bottom: 12px;
+        padding: 8px;
     }
 }
 
@@ -483,7 +549,6 @@ kbd {
     #game-title-mini {
         font-size: 11px;
     }
-    /* Show mobile gamepad controls on mobile/touch screens */
     #mobile-controls {
         display: flex;
     }

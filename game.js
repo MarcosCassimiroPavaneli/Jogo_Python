@@ -446,9 +446,8 @@ function init3D() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     
-    // Clear old elements and insert new 3D canvas
-    canvasWrapper.innerHTML = '';
-    canvasWrapper.appendChild(renderer.domElement);
+    // Insert new 3D canvas at the back of overlays
+    canvasWrapper.insertBefore(renderer.domElement, canvasWrapper.firstChild);
 
     // 4. Setup Lighting
     // Ambient neon light tint

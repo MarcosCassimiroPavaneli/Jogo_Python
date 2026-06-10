@@ -1,0 +1,14 @@
+# Local high scores
+highscore.txt
+
+# Vercel cache and settings
+.vercel/
+.vercel
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

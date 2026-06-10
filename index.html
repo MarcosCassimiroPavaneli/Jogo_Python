@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Koko-chan: Tokyo Crossing | Anime Arcade</title>
+    <!-- Google Fonts for premium retro-modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Press+Start+2P&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background decorations (sakura petals container or anime vibe) -->
+    <div class="anime-backdrop" style="background-image: url('assets/bg.png');"></div>
+    <div class="dark-overlay"></div>
+
+    <!-- Main Game Container -->
+    <div id="app-container">
+        <!-- Header HUD -->
+        <header id="game-header">
+            <div class="hud-item" id="score-container">
+                <span class="hud-label">PONTOS</span>
+                <span class="hud-value" id="current-score">0000</span>
+            </div>
+            <div id="game-title-mini">KOKO-CHAN!</div>
+            <div class="hud-item" id="lives-container">
+                <span class="hud-label">VIDAS</span>
+                <div class="heart-container" id="hearts">
+                    <span class="heart">❤️</span>
+                    <span class="heart">❤️</span>
+                    <span class="heart">❤️</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Canvas Game Container -->
+        <div id="canvas-wrapper">
+            <canvas id="gameCanvas" width="600" height="700"></canvas>
+
+            <!-- Screens overlays (Start, Game Over, Pause) -->
+            <!-- Start Screen -->
+            <div id="start-screen" class="overlay-screen active">
+                <div class="glow-box">
+                    <div class="anime-badge">NEW GAME</div>
+                    <h1 class="game-logo">Koko-Chan <span class="sub-logo">Tokyo Run</span></h1>
+                    <div class="character-preview">
+                        <img src="assets/chicken.png" alt="Koko-Chan" id="preview-chicken">
+                    </div>
+                    <p class="game-instructions">
+                        Ajude a Koko-chan a atravessar a movimentada avenida de Tóquio sem virar nuggets!
+                    </p>
+                    <div class="high-score-board">
+                        🏆 Recorde: <span id="high-score-val">0</span> pts
+                    </div>
+                    <button id="start-btn" class="anime-btn">COMEÇAR JOGO ⚡</button>
+                    <div class="controls-tips">
+                        Use as setas <kbd>▲</kbd> <kbd>▼</kbd> <kbd>◀</kbd> <kbd>▶</kbd> ou <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="game-over-screen" class="overlay-screen">
+                <div class="glow-box game-over-box">
+                    <div class="anime-badge danger">K.O.</div>
+                    <h2 class="game-over-title">FIM DE JOGO</h2>
+                    <div class="final-score-display">
+                        <div class="score-card">
+                            <span class="card-label">Pontos Finais</span>
+                            <span class="card-val" id="final-score">0</span>
+                        </div>
+                        <div class="score-card">
+                            <span class="card-label">Novo Recorde?</span>
+                            <span class="card-val" id="record-status">Não</span>
+                        </div>
+                    </div>
+                    <button id="restart-btn" class="anime-btn danger-btn">JOGAR NOVAMENTE 🔄</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Controls Panel (only visible on touch devices) -->
+        <div id="mobile-controls">
+            <div class="control-row">
+                <button class="mobile-btn" id="btn-up">▲</button>
+            </div>
+            <div class="control-row">
+                <button class="mobile-btn" id="btn-left">◀</button>
+                <button class="mobile-btn" id="btn-down">▼</button>
+                <button class="mobile-btn" id="btn-right">▶</button>
+            </div>
+        </div>
+
+        <!-- Bottom info / credits -->
+        <footer id="game-footer">
+            <p>Criado com 💖 estilo Anime • Use o som para melhor experiência!</p>
+            <button id="mute-btn" class="icon-btn">🔊 Som: Ligado</button>
+        </footer>
+    </div>
+
+    <!-- Main Game Script -->
+    <script src="game.js"></script>
+</body>
+</html>

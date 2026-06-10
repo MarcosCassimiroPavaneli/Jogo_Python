@@ -627,7 +627,7 @@ function buildEnvironment() {
 
 // ---- Player State ----
 let playerGridX = Math.floor(COLS/2);
-let playerGridY = ROWS - 1;
+let playerGridY = 0; // row 0 = bottom of screen (near camera)
 let isJumping = false, jumpTime = 0;
 const JUMP_DURATION = 14;
 let jumpStartX = 0, jumpStartZ = 0, jumpTargetX = 0, jumpTargetZ = 0;
@@ -635,19 +635,21 @@ let playerHeading = 0;
 
 function resetPlayer() {
     playerGridX = Math.floor(COLS/2);
-    playerGridY = ROWS - 1;
+    playerGridY = 0; // always reset to bottom
     isJumping = false;
     playerMesh.position.set(getXFromCol(playerGridX), 0, getZFromRow(playerGridY));
     playerMesh.rotation.y = 0;
-    playerHeading = 0;
+    playerHeading = Math.PI; // face upward (away from camera)
     playerMesh.scale.set(1,1,1);
 }
 
 function movePlayer(dir) {
     if (gameOver || !gameStarted || isJumping) return;
     let nx = playerGridX, ny = playerGridY;
-    if (dir==='up')    { ny--; playerHeading = 0; }
-    else if (dir==='down') { ny++; playerHeading = Math.PI; }
+    // Row 0 = bottom (near camera), Row ROWS-1 = top (far from camera)
+    // Pressing UP moves AWAY from camera = increasing row number
+    if (dir==='up')    { ny++; playerHeading = Math.PI; }  // face away from camera
+    else if (dir==='down') { ny--; playerHeading = 0; }    // face toward camera
     else if (dir==='left') { nx--; playerHeading = Math.PI/2; }
     else if (dir==='right') { nx++; playerHeading = -Math.PI/2; }
 
@@ -661,13 +663,14 @@ function movePlayer(dir) {
         playSound('jump');
         spawn3DFeathers(playerMesh.position.x, playerMesh.position.z, 3);
 
-        const level = (ROWS-1) - playerGridY;
+        // Score increases as player advances toward top (row ROWS-1)
+        const level = playerGridY;
         if (level * 10 > score) {
             score += (level*10) - score;
             updateScore();
         }
 
-        if (playerGridY === 0) {
+        if (playerGridY === ROWS - 1) {
             // Reached the top! Level up difficulty once
             playSound('score');
             if (difficultyPhase === 1) {
@@ -869,8 +872,8 @@ function update() {
     spawn3DSakura();
     updateParticles();
 
-    // Camera follow
-    camera.position.z += (playerMesh.position.z + 18 - camera.position.z) * 0.1;
+    // Camera follow — player starts at bottom (high Z) and moves toward top (low Z)
+    camera.position.z += (playerMesh.position.z + 14 - camera.position.z) * 0.1;
     camera.position.x += (playerMesh.position.x * 0.55 - camera.position.x) * 0.06;
     if (shakeIntensity > 0) {
         camera.position.x += (Math.random()-.5)*shakeIntensity;

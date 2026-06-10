@@ -1,0 +1,490 @@
+/* Global Reset & Theme Variables */
+:root {
+    --bg-dark: #0f0c1b;
+    --primary: #ff2a74;
+    --primary-glow: rgba(255, 42, 116, 0.4);
+    --secondary: #05d9e8;
+    --secondary-glow: rgba(5, 217, 232, 0.4);
+    --yellow: #f5ee30;
+    --yellow-glow: rgba(245, 238, 48, 0.4);
+    --dark-blue: #01012b;
+    --white: #ffffff;
+    --text-muted: #8b8bb8;
+    --font-heading: 'Outfit', sans-serif;
+    --font-pixel: 'Press Start 2P', monospace;
+    --font-body: 'Fredoka', sans-serif;
+    --neon-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background Anime Styling */
+.anime-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px) brightness(0.6);
+    z-index: -2;
+    transform: scale(1.05);
+    animation: slow-pan 60s infinite alternate linear;
+}
+
+@keyframes slow-pan {
+    0% { transform: scale(1.05) translate(0, 0); }
+    100% { transform: scale(1.1) translate(-2%, -2%); }
+}
+
+.dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(15, 12, 27, 0.9) 0%, rgba(1, 1, 43, 0.8) 100%);
+    z-index: -1;
+}
+
+/* Main Application Container */
+#app-container {
+    width: 100%;
+    max-width: 620px;
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    z-index: 10;
+}
+
+/* HUD Header Styling */
+#game-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(1, 1, 43, 0.7);
+    border: 2px solid var(--secondary);
+    border-radius: 16px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 15px rgba(5, 217, 232, 0.2), inset 0 0 10px rgba(5, 217, 232, 0.1);
+    backdrop-filter: blur(8px);
+}
+
+#game-title-mini {
+    font-family: var(--font-pixel);
+    font-size: 14px;
+    color: var(--yellow);
+    text-shadow: 0 0 8px var(--yellow-glow);
+    letter-spacing: 2px;
+}
+
+.hud-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hud-label {
+    font-size: 10px;
+    font-family: var(--font-pixel);
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.hud-value {
+    font-family: var(--font-pixel);
+    font-size: 18px;
+    color: var(--white);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.heart-container {
+    display: flex;
+    gap: 4px;
+    font-size: 18px;
+    filter: drop-shadow(0 0 4px var(--primary-glow));
+}
+
+.heart {
+    transition: transform 0.2s ease;
+}
+
+.heart.lost {
+    filter: grayscale(1) opacity(0.3);
+    transform: scale(0.8);
+}
+
+/* Canvas & Screen Wrappers */
+#canvas-wrapper {
+    position: relative;
+    width: 100%;
+    flex-grow: 1;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    border: 3px solid var(--primary);
+    box-shadow: 0 0 25px rgba(255, 42, 116, 0.3);
+    overflow: hidden;
+}
+
+canvas {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    aspect-ratio: 600 / 700;
+    background-color: #1a172e;
+    border-radius: 16px;
+}
+
+/* Overlays / Screens */
+.overlay-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: rgba(15, 12, 27, 0.85);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.overlay-screen.active {
+    display: flex;
+}
+
+.glow-box {
+    background: rgba(1, 1, 43, 0.8);
+    border: 3px solid var(--primary);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px rgba(255, 42, 116, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.glow-box.game-over-box {
+    border-color: var(--secondary);
+    box-shadow: 0 0 30px var(--secondary-glow), inset 0 0 15px rgba(5, 217, 232, 0.3);
+}
+
+.anime-badge {
+    position: absolute;
+    top: -15px;
+    background: var(--primary);
+    color: var(--white);
+    font-family: var(--font-pixel);
+    font-size: 10px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px var(--primary);
+    letter-spacing: 1px;
+}
+
+.anime-badge.danger {
+    background: var(--secondary);
+    box-shadow: 0 0 10px var(--secondary);
+}
+
+/* Typography & Layout inside overlays */
+.game-logo {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: -1px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-shadow: 0 3px 0 var(--primary);
+}
+
+.sub-logo {
+    display: block;
+    font-size: 18px;
+    color: var(--secondary);
+    font-family: var(--font-pixel);
+    letter-spacing: 2px;
+    margin-top: 5px;
+    text-shadow: 0 0 8px var(--secondary-glow);
+}
+
+.character-preview {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--secondary-glow) 0%, rgba(0,0,0,0) 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#preview-chicken {
+    width: 70px;
+    height: auto;
+    object-fit: contain;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.05); }
+}
+
+.game-instructions {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.high-score-board {
+    font-family: var(--font-pixel);
+    font-size: 12px;
+    color: var(--yellow);
+    background: rgba(255,255,255,0.05);
+    padding: 8px 16px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px dashed rgba(245, 238, 48, 0.4);
+}
+
+/* Premium Buttons */
+.anime-btn {
+    width: 100%;
+    max-width: 280px;
+    background: linear-gradient(135deg, var(--primary) 0%, #d61b58 100%);
+    border: none;
+    border-bottom: 4px solid #990c39;
+    border-radius: 16px;
+    color: var(--white);
+    padding: 14px 28px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px var(--primary-glow);
+    transition: all 0.1s ease;
+    outline: none;
+}
+
+.anime-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px var(--primary-glow);
+}
+
+.anime-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 0px;
+    margin-bottom: 4px;
+}
+
+.anime-btn.danger-btn {
+    background: linear-gradient(135deg, var(--secondary) 0%, #039dbb 100%);
+    border-bottom-color: #02677c;
+    box-shadow: 0 8px 20px var(--secondary-glow);
+}
+
+.anime-btn.danger-btn:hover {
+    box-shadow: 0 10px 25px var(--secondary-glow);
+}
+
+.controls-tips {
+    margin-top: 15px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+kbd {
+    background: #25223d;
+    border: 1px solid #47436c;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin: 0 2px;
+    font-family: monospace;
+}
+
+/* Game Over Layout */
+.game-over-title {
+    font-family: var(--font-pixel);
+    font-size: 26px;
+    color: var(--secondary);
+    text-shadow: 0 0 10px var(--secondary-glow);
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.final-score-display {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.score-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: var(--font-pixel);
+    margin-bottom: 6px;
+}
+
+.card-val {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+}
+
+/* Mobile On-Screen Controls */
+#mobile-controls {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 250px;
+    margin: 5px auto;
+}
+
+.control-row {
+    display: flex;
+    gap: 12px;
+}
+
+.mobile-btn {
+    width: 60px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid var(--secondary);
+    border-radius: 12px;
+    color: var(--white);
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(5, 217, 232, 0.1);
+    touch-action: manipulation;
+}
+
+.mobile-btn:active {
+    background: var(--secondary);
+    color: var(--bg-dark);
+    box-shadow: 0 0 15px var(--secondary);
+    transform: scale(0.95);
+}
+
+/* Footer Styling */
+#game-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 5px 10px;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--secondary);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    color: var(--white);
+    text-shadow: 0 0 5px var(--secondary-glow);
+}
+
+/* Media Queries for Responsive Design */
+@media (max-height: 750px) {
+    #app-container {
+        padding: 5px;
+    }
+    .game-logo {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    .sub-logo {
+        font-size: 14px;
+    }
+    .character-preview {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 10px;
+    }
+    #preview-chicken {
+        width: 50px;
+    }
+    .glow-box {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #game-header {
+        padding: 8px 15px;
+    }
+    .hud-value {
+        font-size: 15px;
+    }
+    #game-title-mini {
+        font-size: 11px;
+    }
+    /* Show mobile gamepad controls on mobile/touch screens */
+    #mobile-controls {
+        display: flex;
+    }
+}
